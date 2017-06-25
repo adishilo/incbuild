@@ -1,0 +1,24 @@
+{
+    "baseRoot": "../..",
+    "watches": [
+        {
+            "executeBeforeReady": false,
+            "watchRoot": "ExternalTools",
+            "ignored": [ "node_modules", "Output" ],
+            "sources": [ "**/*.json" ],
+            "autoCreateDir": ":watchedRoot:/Output/ExternalTools/:changedRelPath:",
+            "execAfterReady": "echo I am READY!!",
+            "triggeredCommands": [
+                {
+                    "triggeringEvents": [ "add", "change" ],
+                    "commands": [ "echo :changedAbsPath: changed or added" ],
+                    "showStdout": true
+                },
+                {
+                    "triggeringEvents": [ "unlink" ],
+                    "commands": [ "echo :changedAbsPath: removed" ]
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,17 @@
+{
+  "name": "incremental",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "chokidar": "^1.7.0",
+    "debug": "^2.6.8",
+    "mkdirp": "^0.5.1",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "@types/chokidar": "^1.7.0",
+    "@types/debug": "^0.0.29",
+    "typescript": "^2.3.4"
+  }
+}
