@@ -1,8 +1,11 @@
 {
   "name": "incremental",
-  "version": "1.0.0",
+  "version": "0.9.0",
   "main": "index.js",
   "license": "MIT",
+  "bin": {
+    "incremental": "./start-configFile.js"
+  },
   "dependencies": {
     "chokidar": "^1.7.0",
     "debug": "^2.6.8",
@@ -12,6 +15,9 @@
   "devDependencies": {
     "@types/chokidar": "^1.7.0",
     "@types/debug": "^0.0.29",
+    "del": "^3.0.0",
+    "gulp": "^3.9.1",
+    "gulp-sequence": "^0.4.6",
     "typescript": "^2.3.4"
   }
 }

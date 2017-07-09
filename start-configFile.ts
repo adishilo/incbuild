@@ -1,7 +1,14 @@
+#!/usr/bin/env node
+
+import * as debugModule from 'debug';
 import * as path from 'path';
 import PathWatchManager from "./PathWatchManager";
 import WatchFileConfigManager from "./Configuration/WatchFileConfigManager";
 import ExitHandler from "./ExitHandler";
+
+const debug = debugModule(path.basename(__filename));
+
+debug(`Arguments: ${JSON.stringify(process.argv)}`);
 
 if (!process.argv[2]) {
     console.log('Error: Please supply the path to configuration file.');

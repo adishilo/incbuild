@@ -33,7 +33,7 @@ export default class ExitHandler {
     public registerProcess(childProc: proc.ChildProcess) {
         this._childProcs.set(childProc.pid, childProc);
 
-        debug(`Registered child process PID '${childProc.pid}'`);
+        debug(`Registered child process PID ${childProc.pid}`);
     }
 
     public unregisterProcess(pid: number) {
