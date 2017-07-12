@@ -1,23 +1,29 @@
 {
-  "name": "incremental",
+  "name": "incbuild",
   "version": "0.9.0",
-  "main": "index.js",
+  "main": "./start-configFile.js",
   "license": "MIT",
   "bin": {
-    "incremental": "./start-configFile.js"
+    "incbuild": "./start-configFile.js"
+  },
+  "scripts": {
+    "prepublishOnly": "gulp clean-build",
+    "build": "gulp clean-build"
   },
   "dependencies": {
     "chokidar": "^1.7.0",
+    "cli": "^1.0.1",
     "debug": "^2.6.8",
     "mkdirp": "^0.5.1",
     "path": "^0.12.7"
   },
   "devDependencies": {
     "@types/chokidar": "^1.7.0",
+    "@types/cli": "^0.11.19",
     "@types/debug": "^0.0.29",
     "del": "^3.0.0",
     "gulp": "^3.9.1",
     "gulp-sequence": "^0.4.6",
-    "typescript": "^2.3.4"
+    "typescript": "^2.4.1"
   }
 }

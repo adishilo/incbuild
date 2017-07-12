@@ -8,3 +8,6 @@ Feature Requests
     - 'Nothing': Do nothing when registering watches
     - 'MirrorStructure': Make sure the target folder structure matches that of the source
     - 'ALL': Execute all watches callbacks
+2. CLI
+3. README.md
+4. Add JSON schema for the configuration

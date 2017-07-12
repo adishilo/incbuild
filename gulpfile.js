@@ -37,7 +37,7 @@ gulp.task('build', ['compile']);
 
 gulp.task('copy-files', () => {
     return gulp
-        .src([`!${outputDir}/**/*`, `!${nodeModulesDir}/**/*`, '**/*.json'])
+        .src([`!${outputDir}/**/*`, `!${nodeModulesDir}/**/*`, '**/*.json', 'README.md'])
         .pipe(gulp.dest(outputDir))
 });
 
