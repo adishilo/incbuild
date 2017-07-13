@@ -3,11 +3,10 @@ Issues:
 2. When creating a folder and then starting incremental and then adding a new file to the folder - incremental creates a file named after the folder on the target
     - can be resolved by FR 1
 
-Feature Requests
+Feature Requests:
 1. Configuration 'executeBeforeReady' field to have enum values:
     - 'Nothing': Do nothing when registering watches
     - 'MirrorStructure': Make sure the target folder structure matches that of the source
     - 'ALL': Execute all watches callbacks
-2. CLI
 3. README.md
 4. Add JSON schema for the configuration

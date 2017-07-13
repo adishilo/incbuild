@@ -17,6 +17,8 @@ let cliOptions = cli.parse({
     'file': [ 'f', 'Configuration file name to use', 'file', undefined ]
 });
 
+console.dir(cliOptions);
+
 if (!cliOptions.file) {
     console.log('Error: Please supply the path to the configuration file.\n');
     cli.getUsage();
@@ -26,6 +28,6 @@ if (!cliOptions.file) {
 
 let exitHandler = new ExitHandler();
 let watchManager = new PathWatchManager(exitHandler);
-let watchConfig = new WatchFileConfigManager(path.join(process.cwd(), process.argv[2]));
+let watchConfig = new WatchFileConfigManager(path.join(process.cwd(), cliOptions.file));
 
 watchManager.createPathWatchers(watchConfig.configuration);

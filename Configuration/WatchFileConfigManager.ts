@@ -9,8 +9,6 @@ export default class WatchFileConfigManager {
 
     public constructor(configurationFileName: string) {
         this.configuration = <Configuration>(require(configurationFileName));
-
-        // Calculate
         this.configuration.baseRoot = path.resolve(path.dirname(configurationFileName), this.configuration.baseRoot);
 
         debug('Set configuration:');
