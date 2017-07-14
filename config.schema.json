@@ -1,0 +1,42 @@
+{
+    "type": "object",
+
+    "definitions": {
+        "listOfString": {
+            "type": "array",
+            "items": { "type": "string" }
+        }
+    },
+
+    "properties": {
+        "baseRoot": { "type": "string" },
+        "watches": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "executeBeforeReady": { "type": "boolean" },
+                    "watchRoot": { "type": "string" },
+                    "ignored": { "$ref": "#/definitions/listOfString" },
+                    "sources": { "$ref": "#/definitions/listOfString" },
+                    "autoCreateDir": { "type": "string" },
+                    "execAfterReady": { "type": "string" },
+                    "triggeredCommands": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "triggeringEvents": { "$ref": "#/definitions/listOfString" },
+                                "commands": { "$ref": "#/definitions/listOfString" },
+                                "showStdOut": { "type": "boolean" }
+                            },
+                            "required": [ "triggeringEvents", "commands" ]
+                        }
+                    }
+                },
+                "required": [ "watchRoot", "sources", "triggeredCommands" ]                
+            }
+        }
+    },
+    "required": [ "baseRoot", "watches" ]
+}
