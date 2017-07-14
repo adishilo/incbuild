@@ -1,8 +1,16 @@
 {
   "name": "incbuild",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "main": "./start-configFile.js",
   "license": "MIT",
+  "homepage": "https://github.com/adishilo/incbuild",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/adishilo/incbuild.git"
+  },
+  "bugs": {
+    "url": "https://github.com/adishilo/incbuild/issues"
+  },
   "bin": {
     "incbuild": "./start-configFile.js"
   },

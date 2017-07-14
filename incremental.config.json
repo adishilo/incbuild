@@ -6,7 +6,7 @@
             "executeBeforeReady": true,
             "watchRoot": ".",
             "ignored": [ ".git", "node_modules", "Output" ],
-            "sources": [ "**/*.json" ],
+            "sources": [ "**/*.json", "**/*.md" ],
             "autoCreateDir": ":watchedRoot:/Output/:changedRelPath:",
             "execAfterReady": ":baseRoot:/node_modules/.bin/tsc -w -p :watchedRoot:",
             "triggeredCommands": [
