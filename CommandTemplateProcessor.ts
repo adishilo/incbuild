@@ -27,7 +27,7 @@ export default class CommandTemplateProcessor {
         return this._execManager.isAllowedExecution;
     }
 
-    public get baseRooe(): string {
+    public get baseRoot(): string {
         return this._execManager.baseRoot;
     }
 
