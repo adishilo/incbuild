@@ -34,7 +34,7 @@ Running
 ```bash
 > incbuild -f watch-config.json
 ```
-(See [incbuild CLI](#CLI))
+(See [incbuild CLI](#cli))
 
 Creates a watch on the current folder (`watchRoot` property) that any changed/added `.json` file (`sources` property) is immediately copied to the relevant path under the `Output/` folder.
 
@@ -47,7 +47,7 @@ In order to handle such FS structure cases, we have the `autoCreateDir` configur
 ```
 to the watch, follows up any new folder creation to the target folder where we define (in this example - under the relative path under `Output/` folder).
 ### Doing preparations once
-We might want to do some one-time action once the events-watcher is ready. For that, we can use the `execAfterReady` property. This executes a command template (see [Path templates](#Path-templates)) once the watcher is ready. For example, run the tsc (TypeScript Compiler) in watch mode for the relevant folder:
+We might want to do some one-time action once the events-watcher is ready. For that, we can use the `execAfterReady` property. This executes a command template (see [Path templates](#path-templates)) once the watcher is ready. For example, run the tsc (TypeScript Compiler) in watch mode for the relevant folder:
 ```json
 "execAfterReady": ":baseRoot:/node_modules/.bin/tsc -w -p :watchedRoot:"
 ```
@@ -106,14 +106,14 @@ Property | Description | Default value
 --- | --- | ---
 `baseRoot` | The path to the root folder being watched for changed, relative to the whereabouts of this configuration file. | **Mandatory Field**
 `watches` | Defines a set of *watches* on the `baseRoot` folder. A *watch* is a relation between FS events and what actions to take as consequence. | **Mandatory Field**
-*watch*.`executeBeforeReady` | Whether to execute actions on relevant FS changes, before the watch is ready. See also [FS Events and flows](#FS-Events-and-flows). | `false`
+*watch*.`executeBeforeReady` | Whether to execute actions on relevant FS changes, before the watch is ready. See also [FS Events and flows](#fs-events-and-flows). | `false`
 *watch*.`watchRoot` | The root folder watched for FS changes, relative to the `baseRoot`. | **Mandatory Field**
 *watch*.`sources` | A list of file paths, relative to the `watchRoot` folder, for which we are listening for FS events. Accepts Glob definitions. | **Mandatory Field**
 *watch*.`ignored` | A list of folders/files, relative to the `watchRoot` folder, which are to be ignored when watching for FS events. | `[]`
-*watch*.`autoCreateDir` | When used, FS folder creation events cause the creation of a matching folders in a path according to the given template. See [Path templates](#Path-templates). | `""`
-*watch*.`execAfterReady` | When used, is a command template to execute after the watch is ready. See [FS Events and flows](#FS-Events-and-flows) and [Path templates](#Path-templates). | `""`
+*watch*.`autoCreateDir` | When used, FS folder creation events cause the creation of a matching folders in a path according to the given template. See [Path templates](#path-templates). | `""`
+*watch*.`execAfterReady` | When used, is a command template to execute after the watch is ready. See [FS Events and flows](#fs-events-and-flows) and [Path templates](#path-templates). | `""`
 *watch*.`triggeredCommnads` | A collection of triggering FS events and the actions to take as consequence. | **Mandatory Field**
-*watch.command*.`triggeringEvents` | A list of FS event names that when triggered causes the given `commands` to execute. See [FS Events and flows](#FS-Events-and-flows). | **Mandatory Field**
+*watch.command*.`triggeringEvents` | A list of FS event names that when triggered causes the given `commands` to execute. See [FS Events and flows](#fs-events-and-flows). | **Mandatory Field**
 *watch.command*.`commands` | A list of command templates to execute when one of the defined `triggeringEvents` is triggered. Those commands are assumed to be shell commands and are each executed in a separate process. For now, the shell is the same shell as the one used to run *incbuild* with. | **Mandatory Field**
 *watch.command*.`showStdout` | When set, the `stdout` of the executed command process is written to the console. | `false`
 ### FS Events and flows
@@ -138,7 +138,7 @@ So if the *watch*.`executeBeforeReady` property is set, the 'add' events trigger
 
 The *watch*.`executeBeforeReady` property can define a command to execute once the 'ready' event was triggered, meaning chokidar finished the scan and the watch is ready and running.
 
-All of this activity, and much more, can be seen if running the *incbuild* tool in debug mode. See [Running with debug messages](#Running-with-debug-messages).
+All of this activity, and much more, can be seen if running the *incbuild* tool in debug mode. See [Running with debug messages](#running-with-debug-messages).
 ### Path templates
 Several properties on the configuration JSON schema use the `CommandTemplate` type. This is basically a `string`, that can accept several wild-cards that are substituted on run time with the relevant required information:
 
@@ -149,7 +149,7 @@ Several properties on the configuration JSON schema use the `CommandTemplate` ty
 - `:changedFile:` is the name of the changed file (without the prefix-path).
 - `:changedRelFolder:` is the path of the folder of the changed file/folder, relative to the watch root.
 - `:changedAbsFolder:` is the absolute path of the folder of the changed file/folder.
-- `:changeType:` is the name of the triggering event. See [FS Events and flows](#FS-Events-and-flows).
+- `:changeType:` is the name of the triggering event. See [FS Events and flows](#fs-events-and-flows).
 
 ## CLI
 The *incbuild* tool has a simple CLI which syntax can be viewed with the following command:
