@@ -1,42 +1,84 @@
 {
     "type": "object",
-
     "definitions": {
         "listOfString": {
             "type": "array",
-            "items": { "type": "string" }
+            "items": {
+                "type": "string"
+            }
         }
     },
-
     "properties": {
-        "baseRoot": { "type": "string" },
+        "baseRoot": {
+            "description": "The path to the root folder being watched for changed, relative to the whereabouts of this configuration file.",
+            "type": "string"
+        },
         "watches": {
+            "description": "Defines a set of watches on the baseRoot folder. A watch is a relation between FS events and what actions to take as consequence.",
             "type": "array",
             "items": {
                 "type": "object",
                 "properties": {
-                    "executeBeforeReady": { "type": "boolean" },
-                    "watchRoot": { "type": "string" },
-                    "ignored": { "$ref": "#/definitions/listOfString" },
-                    "sources": { "$ref": "#/definitions/listOfString" },
-                    "autoCreateDir": { "type": "string" },
-                    "execAfterReady": { "type": "string" },
+                    "executeBeforeReady": {
+                        "description": "Whether to execute actions on relevant FS changes, before the watch is ready.",
+                        "type": "boolean"
+                    },
+                    "watchRoot": {
+                        "description": "The root folder watched for FS changes, relative to the baseRoot.",
+                        "type": "string"
+                    },
+                    "ignored": {
+                        "description": "A list of folders/files, relative to the watchRoot folder, which are to be ignored when watching for FS events.",
+                        "$ref": "#/definitions/listOfString"
+                    },
+                    "sources": {
+                        "description": "A list of file paths, relative to the watchRoot folder, for which we are listening for FS events. Accepts Glob definitions.",
+                        "$ref": "#/definitions/listOfString"
+                    },
+                    "autoCreateDir": {
+                        "description": "When used, FS folder creation events cause the creation of a matching folders in a path according to the given template.",
+                        "type": "string"
+                    },
+                    "execAfterReady": {
+                        "description": "When used, is a command template to execute after the watch is ready.",
+                        "type": "string"
+                    },
                     "triggeredCommands": {
+                        "description": "A collection of triggering FS events and the actions to take as consequence.",
                         "type": "array",
                         "items": {
                             "type": "object",
                             "properties": {
-                                "triggeringEvents": { "$ref": "#/definitions/listOfString" },
-                                "commands": { "$ref": "#/definitions/listOfString" },
-                                "showStdOut": { "type": "boolean" }
+                                "triggeringEvents": {
+                                    "description": "A list of FS event names that when triggered causes the given commands to execute.",
+                                    "$ref": "#/definitions/listOfString"
+                                },
+                                "commands": {
+                                    "description": "A list of command templates to execute when one of the defined triggeringEvents is triggered. Those commands are assumed to be shell commands and are each executed in a separate process. For now, the shell is the same shell as the one used to run incbuild with.",
+                                    "$ref": "#/definitions/listOfString"
+                                },
+                                "showStdOut": {
+                                    "description": "When set, the stdout of the executed command process is written to the console.",
+                                    "type": "boolean"
+                                }
                             },
-                            "required": [ "triggeringEvents", "commands" ]
+                            "required": [
+                                "triggeringEvents",
+                                "commands"
+                            ]
                         }
                     }
                 },
-                "required": [ "watchRoot", "sources", "triggeredCommands" ]                
+                "required": [
+                    "watchRoot",
+                    "sources",
+                    "triggeredCommands"
+                ]
             }
         }
     },
-    "required": [ "baseRoot", "watches" ]
+    "required": [
+        "baseRoot",
+        "watches"
+    ]
 }
