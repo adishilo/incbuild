@@ -1,7 +1,7 @@
 import * as chokidar from 'chokidar';
 import * as path from 'path';
 import * as proc from 'child_process';
-import * as mkdirp from 'mkdirp';
+import * as makedir from 'make-dir';
 import CommandTemplateProcessor from "./CommandTemplateProcessor";
 import * as debugModule from 'debug';
 import Configuration from "./Configuration/Configuration";
@@ -46,7 +46,8 @@ export default class PathWatchManager {
                 ignored: configWatch.ignored || [],
                 persistent: true
             });
-        let processor = new CommandTemplateProcessor(execManager, configWatch.autoCreateDir, true);
+        let autoCreateDirTarget = configWatch.autoCreateDir.replace(/\"/g, ''); // 'make-dir' package considers double quotes as illegal chars
+        let processor = new CommandTemplateProcessor(execManager, autoCreateDirTarget, true);
 
         newWatcher.on('addDir', dirPath => this.autoCreateDirExec(processor, dirPath));
         debug(`- Registered auto folder creation listening on ${execManager.absoluteWatchRoot}`);
@@ -89,7 +90,7 @@ export default class PathWatchManager {
         this._watchers.push(newWatcher);
     }
 
-    private autoCreateDirExec(processor: CommandTemplateProcessor, addedPath: string) {
+    private async autoCreateDirExec(processor: CommandTemplateProcessor, addedPath: string) {
         if (!processor.isAllowedExecution) {
             debug(`Triggered for execution but it is not (yet) allowed, ignoring triggered event (addDir '${addedPath}')`);
 
@@ -98,16 +99,14 @@ export default class PathWatchManager {
 
         let targetFolder = processor.getDigestedCommand('addDir', addedPath);
 
-        mkdirp(targetFolder, err => {
-            if (err) {
-                console.error(`Error: Could not create target folder for ${addedPath}`);
+        let path = await makedir(targetFolder).catch(error => {
+            console.error(`Error: Could not create target folder for ${addedPath}. Caught error: ${error}`);
 
-                return;
-            }
-
-            debug(`Created folder '${targetFolder}'`);
-            this.reportActivity('addDir');
+            return;
         });
+
+        debug(`Created folder '${targetFolder}'`);
+        this.reportActivity('addDir');
     }
 
     private executeTriggeredCommand(processor: CommandTemplateProcessor, changeType: string, changedRelativePath: string) {

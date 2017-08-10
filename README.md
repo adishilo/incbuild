@@ -110,7 +110,7 @@ Property | Description | Default value
 *watch*.`watchRoot` | The root folder watched for FS changes, relative to the `baseRoot`. | **Mandatory Field**
 *watch*.`sources` | A list of file paths, relative to the `watchRoot` folder, for which we are listening for FS events. Accepts Glob definitions. | **Mandatory Field**
 *watch*.`ignored` | A list of folders/files, relative to the `watchRoot` folder, which are to be ignored when watching for FS events. | `[]`
-*watch*.`autoCreateDir` | When used, FS folder creation events cause the creation of a matching folders in a path according to the given template. See [Path templates](#path-templates). | `""`
+*watch*.`autoCreateDir` | When used, FS folder creation events cause the creation of a matching folders in a path according to the given template. No need to use double-quotes, event for folder names containing spaces. See [Path templates](#path-templates). | `""`
 *watch*.`execAfterReady` | When used, is a command template to execute after the watch is ready. See [FS Events and flows](#fs-events-and-flows) and [Path templates](#path-templates). | `""`
 *watch*.`triggeredCommnads` | A collection of triggering FS events and the actions to take as consequence. | **Mandatory Field**
 *watch.command*.`triggeringEvents` | A list of FS event names that when triggered causes the given `commands` to execute. See [FS Events and flows](#fs-events-and-flows). | **Mandatory Field**
