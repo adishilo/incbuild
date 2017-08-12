@@ -74,6 +74,8 @@ So now, our elaborated example looks like this:
     ]
 }
 ```
+
+**Important: It is important to terminate *incbuild* activity with Ctrl+C, and not rely on parent processes it was started with (like VS Code) doing so, because otherwise *incbuild* might leave orphan processes (started with the `execAfterReady` configuration) running.**
 ## Configuration reference
 ### Configuration file
 The configuration `.json` file carries the following scheme. Note that since this file is `require`d, it can also be a Javascript file that exports the relevant configuration object.

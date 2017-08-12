@@ -15,17 +15,31 @@ export default class ExitHandler {
             console.error(`Unhandled Rejection at: ${error}`);
         });
 
-        process.on('uncaughtException', (error) => {
+        process.on('uncaughtException', async (error) => {
             console.error(`Uncaught exception at: ${error}`);
 
-            this.terminateChildProcesses();
+            await this.terminateChildProcesses();
             process.exit(1);
         });
 
-        process.on('SIGINT', () => {
+        process.on('SIGINT', async () => {
+            await this.terminateChildProcesses();
             debug('Caught SIGINT, terminating');
 
-            this.terminateChildProcesses();
+            process.exit(0);
+        });
+
+        process.on('SIGHUP', async () => {
+            await this.terminateChildProcesses();
+            debug('Caught SIGHUP, terminating');
+
+            process.exit(0);
+        });
+
+        process.on('SIGTERM', async () => {
+            await this.terminateChildProcesses();
+            debug('Caught SIGTERM, terminating');
+
             process.exit(0);
         });
     }
@@ -48,13 +62,28 @@ export default class ExitHandler {
         debug(`Unregistered child process PID ${pid}`);
     }
 
-    public terminateChildProcesses() {
-        for (let childProc of this._childProcs.values()) {
-            childProc.kill();
+    public terminateChildProcesses(): Promise<void> {
+        return new Promise<void>((resolve, reject) => {
+            let childsCount = this._childProcs.size;
 
-            debug(`Terminated process PID ${childProc.pid}`);
-        }
+            for (let childProc of this._childProcs.values()) {
+                // Prepare an 'exit' listener:
+                childProc.on('exit', (code, signal) => {
+                    debug(`Terminated process PID ${childProc.pid} by signal '${signal}'. Child process returned: ${code}`);
+                    console.log(`Terminated process PID ${childProc.pid} by signal '${signal}'. Child process returned: ${code}`);
 
-        this._childProcs.clear();
+                    --childsCount;
+
+                    if (childsCount === 0) {
+                        debug('All child processes terminated');
+
+                        this._childProcs.clear();
+                        resolve();
+                    }
+                });
+
+                childProc.kill();
+            }
+        });
     }
 }
