@@ -21,6 +21,13 @@ export default class PathWatchManager {
     public createPathWatchers(config: Configuration) {
         let baseRoot = config.baseRoot;
 
+        if (!config.watches)
+        {
+            console.log('Error: No watches defined, bailing out');
+
+            return;
+        }
+
         for (let configWatch of config.watches) {
             let watchedPath = path.join(baseRoot, configWatch.watchRoot);
             let execManager = new WatchExecutionManager(configWatch.executeBeforeReady, baseRoot, configWatch.watchRoot);
@@ -49,7 +56,7 @@ export default class PathWatchManager {
         let autoCreateDirTarget = configWatch.autoCreateDir.replace(/\"/g, ''); // 'make-dir' package considers double quotes as illegal chars
         let processor = new CommandTemplateProcessor(execManager, autoCreateDirTarget, true);
 
-        newWatcher.on('addDir', dirPath => this.autoCreateDirExec(processor, dirPath));
+        newWatcher.on('addDir', (dirPath: string) => this.autoCreateDirExec(processor, dirPath));
         debug(`- Registered auto folder creation listening on ${execManager.absoluteWatchRoot}`);
 
         this._createDirWatchers.push(newWatcher);
@@ -68,7 +75,7 @@ export default class PathWatchManager {
             let processor = new CommandTemplateProcessor(execManager, triggeredCommand.commands, triggeredCommand.showStdout);
 
             for (let trigger of triggeredCommand.triggeringEvents) {
-                newWatcher.on(trigger, path => this.executeTriggeredCommand(processor, trigger, path));
+                newWatcher.on(trigger, (path: string) => this.executeTriggeredCommand(processor, trigger, path));
 
                 debug(`- Registered ${trigger} event`);
             }

@@ -1,6 +1,6 @@
 {
   "name": "incbuild",
-  "version": "0.9.3",
+  "version": "0.9.4",
   "main": "./start-configFile.js",
   "license": "MIT",
   "homepage": "https://github.com/adishilo/incbuild",
@@ -30,9 +30,11 @@
     "@types/chokidar": "^1.7.0",
     "@types/cli": "^0.11.19",
     "@types/debug": "^0.0.29",
+    "@types/make-dir": "^1.0.3",
     "del": "^3.0.0",
     "gulp": "^3.9.1",
     "gulp-sequence": "^0.4.6",
+    "tslint-language-service": "^0.9.6",
     "typescript": "^2.4.1"
   }
 }

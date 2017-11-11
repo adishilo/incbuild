@@ -1,11 +1,20 @@
 {
     "compilerOptions": {
+        "alwaysStrict": true,
         "module": "commonjs",
-        "target": "es6",
+        "strictNullChecks": true,
+        "noImplicitAny": true,
+        "noImplicitThis": true,
+        "target": "es2017",
         "outDir": "Output",
         "inlineSourceMap": true,
-        "baseUrl": ".",
-        "moduleResolution": "node"
+        "moduleResolution": "node",
+        "skipLibCheck": true,
+        "plugins": [
+            {
+                "name": "tslint-language-service"
+            }
+        ]
     },
     "exclude": [
         "node_modules",

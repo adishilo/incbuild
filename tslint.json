@@ -1,0 +1,23 @@
+{
+  "rules": {
+    "curly": true,
+    "no-conditional-assignment": true,
+    "no-duplicate-variable": true,
+    "no-empty": true,   // Add a comment which explains the empty block instead of keeping it empty
+    "no-eval": true,
+    "no-shadowed-variable": true,
+    "no-string-literal": true,
+    "no-unused-expression": true,
+    "no-use-before-declare": true,
+    "no-var-keyword": true,
+    "class-name": true,
+    "comment-format": [true, "check-space"],
+    "indent": [true, "spaces"],
+    "interface-name": [false, "always-prefix"],
+    "new-parens": true,
+    "semicolon": [true, "always"],
+    "variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore"],
+    "one-line": [true, "check-open-brace", "check-whitespace"],
+    "triple-equals": [true, "allow-null-check"]
+  }
+}
