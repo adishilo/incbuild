@@ -5,7 +5,7 @@
         "strictNullChecks": true,
         "noImplicitAny": true,
         "noImplicitThis": true,
-        "target": "es2017",
+        "target": "es6",
         "outDir": "Output",
         "inlineSourceMap": true,
         "moduleResolution": "node",
