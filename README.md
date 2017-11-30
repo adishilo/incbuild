@@ -104,6 +104,7 @@ The configuration `.json` file carries the following scheme. Note that since thi
 A `config.schema.json` JSON schema file can be found on the root of the *incbuild* Javascript installation folder (and also on the root of the Typescript sources in GitHub) for reference and validation of any configuration file given to the *incbuild* tool.
 ### Configuration object reference:
 The configuration object contains the following properties:
+
 | Property | Description | Default value |
 | --- | --- | --- |
 | `baseRoot` | The path to the root folder being watched for changed, relative to the whereabouts of this configuration file. | **Mandatory Field** |
@@ -118,6 +119,7 @@ The configuration object contains the following properties:
 | *watch.command*.`triggeringEvents` | A list of FS event names that when triggered causes the given `commands` to execute. See [FS Events and flows](#fs-events-and-flows). | **Mandatory Field** |
 | *watch.command*.`commands` | A list of command templates to execute when one of the defined `triggeringEvents` is triggered. Those commands are assumed to be shell commands and are each executed in a separate process. For now, the shell is the same shell as the one used to run *incbuild* with. | **Mandatory Field** |
 | *watch.command*.`showStdout` | When set, the `stdout` of the executed command process is written to the console. | `false` |
+
 ### FS Events and flows
 The watching for FS events is done using the [chokidar npm ackage](https://www.npmjs.com/package/chokidar).
 As such, it defines [names for the FS events being watched for](https://www.npmjs.com/package/chokidar#methods--events). Those names are the names to be used in the *watch.command*.`triggeringEvents` propery list, and currently are:
