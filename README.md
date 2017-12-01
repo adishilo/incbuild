@@ -4,12 +4,12 @@
 
 The tool works by a defined plan given in a JSON configuration file, which allows many features.
 
-Let's start with an example:
-
 Install:
 ```bash
 > npm install -g incbuild
 ```
+
+Let's start with an example:
 
 **watch-config.json**
 ```json
@@ -17,6 +17,7 @@ Install:
     "baseRoot": ".",
     "watches": [
         {
+            "name": "main",
             "watchRoot": ".",
             "sources": [ "**/*.json" ],
             "ignored": [ "Output" ],
@@ -76,6 +77,33 @@ So now, our elaborated example looks like this:
 ```
 
 **Important: It is important to terminate *incbuild* activity with Ctrl+C, and not rely on parent processes it was started with (like VS Code) doing so, because otherwise *incbuild* might leave orphan processes (started with the `execAfterReady` configuration) running.**
+### Selecting the watches to activate
+The `watches` high level property in the JSON definitions file is an array allowing to define many watches. As such, we might want to selectively activate just a few of them. For that there's the *watch*.`name` property which we may reference on the CLI. For example:
+**watch-config.json**
+```json
+{
+    "baseRoot": ".",
+    "watches": [
+        {
+            "name": "watch-1",
+            ...
+        },
+        {
+            "name": "watch-2",
+            ...
+        },
+        {
+            "name": "watch-3",
+            ...
+        },
+        ...
+    ]
+}
+```
+So we have several watches defined, but we'd like to activate just watch-1 and watch-3:
+```bash
+> incbuild -f watch-config.json watch-1 watch-3
+```
 ## Configuration reference
 ### Configuration file
 The configuration `.json` file carries the following scheme. Note that since this file is `require`d, it can also be a Javascript file that exports the relevant configuration object.
@@ -84,6 +112,7 @@ The configuration `.json` file carries the following scheme. Note that since thi
     "baseRoot": string,
     "watches": [
         {
+            "name": string,
             "executeBeforeReady": boolean,
             "watchRoot": string,
             "sources": [ string, ... ],
@@ -109,7 +138,7 @@ The configuration object contains the following properties:
 | --- | --- | --- |
 | `baseRoot` | The path to the root folder being watched for changed, relative to the whereabouts of this configuration file. | **Mandatory Field** |
 | `watches` | Defines a set of *watches* on the `baseRoot` folder. A *watch* is a relation between FS events and what actions to take as consequence. | **Mandatory Field** |
-| *watch*.`name` | The name of the watch. Used to identifiy the watches to activate selectively. When `undefined`, the watch can't be accessed in such a manner, for backward-compatibility. | `undefined` |
+| *watch*.`name` | The name of the watch. Used to identifiy the watches to activate selectively. When `undefined`, the watch can't be accessed in such a manner. This is for backward-compatibility. | `undefined` |
 | *watch*.`executeBeforeReady` | Whether to execute actions on relevant FS changes, before the watch is ready. See also [FS Events and flows](#fs-events-and-flows). | `false` |
 | *watch*.`watchRoot` | The root folder watched for FS changes, relative to the `baseRoot`. | **Mandatory Field** |
 | *watch*.`sources` | A list of file paths, relative to the `watchRoot` folder, for which we are listening for FS events. Accepts Glob definitions. | **Mandatory Field** |
@@ -159,14 +188,16 @@ Several properties on the configuration JSON schema use the `CommandTemplate` ty
 ## CLI
 The *incbuild* tool has a simple CLI which syntax can be viewed with the following command:
 ```bash
-> incbuild -h
-Usage:
-  incbuild [OPTIONS] [ARGS]
+$ incbuild -h
 
-Options:
-  -f, --file FILE        Configuration file name to use
-  -v, --version          Display the current version
-  -h, --help             Display help and usage details
+  Usage: incbuild [options]
+
+
+  Options:
+
+    -V, --version                            output the version number
+    -f, --file <path> [[watch] [watch] ...]  Specify a watch-definitions file, and optionally select which watches to activate
+    -h, --help                               output usage information
 ```
 ## Running with debug messages
 *incbuild* uses the [debug npm package](https://www.npmjs.com/package/debug), so in order to see debug message, use the `DEBUG` environment variable as described in the *debug* package documentation.
