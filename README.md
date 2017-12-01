@@ -4,11 +4,19 @@
 
 The tool works by a defined plan given in a JSON configuration file, which allows many features.
 
+## What's new
+### Version 0.9.4
+- Added the ability to selectively activate chosen watches.
+- Colored the activated watches in green on the console.
+- Minor (required) changes to the CLI.
+- Added *watch*.`name` property to the definition JSON file.
+
 Install:
 ```bash
 > npm install -g incbuild
 ```
 
+## Introduction
 Let's start with an example:
 
 **watch-config.json**
