@@ -8,6 +8,7 @@ import Configuration from "./Configuration/Configuration";
 import PathWatchConfig from './Configuration/PathWatchConfig';
 import WatchExecutionManager from "./WatchExecutionManager";
 import ExitHandler from "./ExitHandler";
+const color = require('colors');
 
 const debug = debugModule(path.basename(__filename));
 
@@ -111,7 +112,7 @@ export default class PathWatchManager {
                 this.executeCommand(processor.getDigestedCommand('N/A', execManager.absoluteWatchRoot), true);
             }
 
-            console.log(`Watch '${configWatch.name}' for [${configWatch.sources.join(', ')}] on '${execManager.absoluteWatchRoot}' is ready`);
+            console.log(`Watch '${configWatch.name}' for [${configWatch.sources.join(', ')}] on '${execManager.absoluteWatchRoot}' is ready`.green);
         });
 
         this._watchers.push(newWatcher);

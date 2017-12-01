@@ -109,13 +109,14 @@ The configuration object contains the following properties:
 | --- | --- | --- |
 | `baseRoot` | The path to the root folder being watched for changed, relative to the whereabouts of this configuration file. | **Mandatory Field** |
 | `watches` | Defines a set of *watches* on the `baseRoot` folder. A *watch* is a relation between FS events and what actions to take as consequence. | **Mandatory Field** |
+| *watch*.`name` | The name of the watch. Used to identifiy the watches to activate selectively. When `undefined`, the watch can't be accessed in such a manner, for backward-compatibility. | `undefined` |
 | *watch*.`executeBeforeReady` | Whether to execute actions on relevant FS changes, before the watch is ready. See also [FS Events and flows](#fs-events-and-flows). | `false` |
 | *watch*.`watchRoot` | The root folder watched for FS changes, relative to the `baseRoot`. | **Mandatory Field** |
 | *watch*.`sources` | A list of file paths, relative to the `watchRoot` folder, for which we are listening for FS events. Accepts Glob definitions. | **Mandatory Field** |
 | *watch*.`ignored` | A list of folders/files, relative to the `watchRoot` folder, which are to be ignored when watching for FS events. | `[]` |
 | *watch*.`autoCreateDir` | When used, FS folder creation events cause the creation of a matching folders in a path according to the given template. No need to use double-quotes, event for folder names containing spaces. See [Path templates](#path-templates). | `""` |
 | *watch*.`execAfterReady` | When used, is a command template to execute after the watch is ready. See [FS Events and flows](#fs-events-and-flows) and [Path templates](#path-templates). | `""` |
-| *watch*.`triggeredCommnads` | A collection of triggering FS events and the actions to take as consequence. | **Mandatory Field** |
+| *watch*.`triggeredCommands` | A collection of triggering FS events and the actions to take as consequence. | **Mandatory Field** |
 | *watch.command*.`triggeringEvents` | A list of FS event names that when triggered causes the given `commands` to execute. See [FS Events and flows](#fs-events-and-flows). | **Mandatory Field** |
 | *watch.command*.`commands` | A list of command templates to execute when one of the defined `triggeringEvents` is triggered. Those commands are assumed to be shell commands and are each executed in a separate process. For now, the shell is the same shell as the one used to run *incbuild* with. | **Mandatory Field** |
 | *watch.command*.`showStdout` | When set, the `stdout` of the executed command process is written to the console. | `false` |

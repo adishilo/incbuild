@@ -8,6 +8,10 @@
   dependencies:
     "@types/node" "*"
 
+"@types/colors@^1.1.3":
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/@types/colors/-/colors-1.1.3.tgz#5413b0a7a1b16dd18be0e3fd57d2feecc81cc776"
+
 "@types/debug@^0.0.29":
   version "0.0.29"
   resolved "https://registry.yarnpkg.com/@types/debug/-/debug-0.0.29.tgz#a1e514adfbd92f03a224ba54d693111dbf1f3754"
@@ -224,6 +228,10 @@ co@^4.6.0:
 code-point-at@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/code-point-at/-/code-point-at-1.1.0.tgz#0d070b4d043a5bea33a2f1a40e2edb3d9a4ccf77"
+
+colors@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/colors/-/colors-1.1.2.tgz#168a4701756b6a7f51a12ce0c97bfa28c084ed63"
 
 combined-stream@^1.0.5, combined-stream@~1.0.5:
   version "1.0.5"

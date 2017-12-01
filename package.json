@@ -1,7 +1,7 @@
 {
   "name": "incbuild",
   "version": "0.9.4",
-  "main": "./start-configFile.js",
+  "main": "./incbuild.js",
   "license": "MIT",
   "homepage": "https://github.com/adishilo/incbuild",
   "repository": {
@@ -12,7 +12,7 @@
     "url": "https://github.com/adishilo/incbuild/issues"
   },
   "bin": {
-    "incbuild": "./start-configFile.js"
+    "incbuild": "./incbuild.js"
   },
   "scripts": {
     "prepublishOnly": "gulp clean-build",
@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "chokidar": "^1.7.0",
+    "colors": "^1.1.2",
     "commander": "^2.12.2",
     "debug": "^2.6.8",
     "make-dir": "^1.0.0",
@@ -28,6 +29,7 @@
   },
   "devDependencies": {
     "@types/chokidar": "^1.7.0",
+    "@types/colors": "^1.1.3",
     "@types/debug": "^0.0.29",
     "@types/make-dir": "^1.0.3",
     "del": "^3.0.0",

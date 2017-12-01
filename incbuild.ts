@@ -21,9 +21,14 @@ const appVersion = require('./package.json').version;
 
 cli
     .version(appVersion)
-    .usage('<options> [[watch] [watch] ...]')
-    .option('-f, --file <path>')
+    .option('-f, --file <path> [[watch] [watch] ...]', 'Specify a watch-definitions file, and optionally select which watches to activate')
     .parse(process.argv);
+
+if (process.argv.length === 2) {
+    console.log('No parameters given.');
+
+    cli.help();
+}
 
 if (!validateCli(cli)) {
     cli.help();
