@@ -5,7 +5,7 @@
 The tool works by a defined plan given in a JSON configuration file, which allows many features.
 
 ## What's new
-### Version 0.9.4
+### Version 0.9.5
 - Added the ability to selectively activate chosen watches.
 - Colored the activated watches in green on the console.
 - Minor (required) changes to the CLI.

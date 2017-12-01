@@ -1,6 +1,6 @@
 {
   "name": "incbuild",
-  "version": "0.9.4",
+  "version": "0.9.5",
   "main": "./incbuild.js",
   "license": "MIT",
   "homepage": "https://github.com/adishilo/incbuild",
