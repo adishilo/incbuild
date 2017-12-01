@@ -19,6 +19,10 @@
             "items": {
                 "type": "object",
                 "properties": {
+                    "name": {
+                        "description": "The name of the watch. Keep it short to use it from CLI",
+                        "type": "string"
+                    },
                     "executeBeforeReady": {
                         "description": "Whether to execute actions on relevant FS changes, before the watch is ready.",
                         "type": "boolean"

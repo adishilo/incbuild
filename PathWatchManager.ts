@@ -5,7 +5,7 @@ import * as makedir from 'make-dir';
 import CommandTemplateProcessor from "./CommandTemplateProcessor";
 import * as debugModule from 'debug';
 import Configuration from "./Configuration/Configuration";
-import PathWatchConfig from "./Configuration/PathWatchConfig";
+import PathWatchConfig from './Configuration/PathWatchConfig';
 import WatchExecutionManager from "./WatchExecutionManager";
 import ExitHandler from "./ExitHandler";
 
@@ -18,17 +18,27 @@ export default class PathWatchManager {
 
     public constructor(private _exitHandler: ExitHandler) {}
 
-    public createPathWatchers(config: Configuration) {
+    public createPathWatchers(config: Configuration, requiredWatchNames?: Array<string>) {
         let baseRoot = config.baseRoot;
 
-        if (!config.watches)
+        if (!config.watches || config.watches.length === 0)
         {
             console.log('Error: No watches defined, bailing out');
 
             return;
         }
 
-        for (let configWatch of config.watches) {
+        const requiredWatches = this.filterWatches(config.watches, requiredWatchNames);
+
+        if (requiredWatches.length === 0) {
+            console.log(`None of the specified watches is defined: ${requiredWatchNames!.join(', ')} (Maybe watches are missing the 'name' property?)`)
+
+            return;
+        }
+
+        console.log(`Start listening to watch(es): ${requiredWatchNames!.join(', ')}`);
+
+        for (let configWatch of requiredWatches) {
             let watchedPath = path.join(baseRoot, configWatch.watchRoot);
             let execManager = new WatchExecutionManager(configWatch.executeBeforeReady, baseRoot, configWatch.watchRoot);
 
@@ -39,6 +49,16 @@ export default class PathWatchManager {
         }
 
         this.printReportLegend();
+    }
+
+    private filterWatches(allWatches: Array<PathWatchConfig>, requiredWatchNames?: Array<string>): Array<PathWatchConfig> {
+        if (!requiredWatchNames || requiredWatchNames.length === 0) {
+            debug('No specific watches required - using all watches');
+
+            return allWatches;
+        }
+
+        return allWatches.filter(watch => requiredWatchNames.find(watchName => watch.name == watchName));
     }
 
     private registerAutoDirCreator(execManager: WatchExecutionManager, configWatch: PathWatchConfig) {
@@ -91,7 +111,7 @@ export default class PathWatchManager {
                 this.executeCommand(processor.getDigestedCommand('N/A', execManager.absoluteWatchRoot), true);
             }
 
-            console.log(`Watch for [${configWatch.sources.join(', ')}] on '${execManager.absoluteWatchRoot}' is ready`);
+            console.log(`Watch '${configWatch.name}' for [${configWatch.sources.join(', ')}] on '${execManager.absoluteWatchRoot}' is ready`);
         });
 
         this._watchers.push(newWatcher);

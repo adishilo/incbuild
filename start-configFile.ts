@@ -1,33 +1,36 @@
 #!/usr/bin/env node
 
 import * as debugModule from 'debug';
-import * as cli from 'cli';
 import * as path from 'path';
 import PathWatchManager from "./PathWatchManager";
 import WatchFileConfigManager from "./Configuration/WatchFileConfigManager";
 import ExitHandler from "./ExitHandler";
+import * as cli from 'commander';
+import CliValidator from './CliValidator';
+import CommandsConfig from './Configuration/CommandsConfig';
 
 const debug = debugModule(path.basename(__filename));
 
 debug(`Arguments: ${JSON.stringify(process.argv)}`);
 
-cli.enable('version');
-cli.setApp(`${__dirname}/package.json`);
-let cliOptions = cli.parse({
-    'file': [ 'f', 'Configuration file name to use', 'file', undefined ]
-});
+const validateCli = (cli: any): boolean => {
+    return CliValidator.isFilePath(cli.file);
+}
 
-console.dir(cliOptions);
+const appVersion = require('./package.json').version;
 
-if (!cliOptions.file) {
-    console.log('Error: Please supply the path to the configuration file.\n');
-    cli.getUsage();
+cli
+    .version(appVersion)
+    .usage('<options> [[watch] [watch] ...]')
+    .option('-f, --file <path>')
+    .parse(process.argv);
 
-    process.exit(1);
+if (!validateCli(cli)) {
+    cli.help();
 }
 
 let exitHandler = new ExitHandler();
 let watchManager = new PathWatchManager(exitHandler);
-let watchConfig = new WatchFileConfigManager(path.join(process.cwd(), cliOptions.file));
+let watchConfig = new WatchFileConfigManager(path.join(process.cwd(), cli.file));
 
-watchManager.createPathWatchers(watchConfig.configuration);
+watchManager.createPathWatchers(watchConfig.configuration, cli.args);

@@ -1,6 +1,7 @@
 import CommandsConfig from "./CommandsConfig";
 
 export default class PathWatchConfig {
+    public readonly name: string;
     public readonly executeBeforeReady: boolean;
     public readonly watchRoot: string;
     public readonly ignored: Array<string>;
