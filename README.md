@@ -5,8 +5,9 @@
 The tool works by a defined plan required by a configuration file, which allows many features.
 
 ## What's New
-### Version 0.9.6
+### Version 0.9.6 (WIP)
 - Added CLI `-l` option to list the available watches in a configuration file. See the CLI section.
+- Watches that are defined with conflicting names are ignored (proper error is given).
 
 Install:
 ```bash
