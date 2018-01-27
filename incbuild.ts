@@ -23,7 +23,7 @@ const executeCliCommands = (cli: any): boolean => {
 
         watchConfig = new WatchFileConfigManager(path.join(process.cwd(), cli.file));
         if (cli.list) {
-            console.log(`${'Base folder:'.bold} ${path.resolve(process.cwd(), watchConfig.configuration.baseRoot)}`);
+            console.log(`${'Base folder:'.bold} ${path.resolve(process.cwd(), watchConfig.configuration.baseRoot).reset}`);
             console.log(`List of all available watches:
         `);
             for (const watch of watchConfig.describeAllWatchFolders()) {

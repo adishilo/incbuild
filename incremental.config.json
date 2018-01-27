@@ -18,6 +18,21 @@
             ]
         },
         {
+            "name": "main",
+            "executeBeforeReady": true,
+            "watchRoot": ".",
+            "ignored": [ ".git", "node_modules", "Output" ],
+            "sources": [ "**/*.json", "**/*.md" ],
+            "autoCreateDir": ":watchedRoot:/Output/:changedRelPath:",
+            "execAfterReady": "node :baseRoot:/node_modules/typescript/bin/tsc -w -p :watchedRoot:",
+            "triggeredCommands": [
+                {
+                    "triggeringEvents": [ "add", "change" ],
+                    "commands": [ "cp :changedAbsPath: :watchedRoot:/Output/:changedRelFolder:" ]
+                }
+            ]
+        },
+        {
             "name": "main1",
             "executeBeforeReady": true,
             "watchRoot": ".",
