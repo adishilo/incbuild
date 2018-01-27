@@ -3,7 +3,7 @@
     "curly": true,
     "no-conditional-assignment": true,
     "no-duplicate-variable": true,
-    "no-empty": true,   // Add a comment which explains the empty block instead of keeping it empty
+    "no-empty": true,
     "no-eval": true,
     "no-shadowed-variable": true,
     "no-string-literal": true,

@@ -8,7 +8,8 @@ import Configuration from "./Configuration/Configuration";
 import PathWatchConfig from './Configuration/PathWatchConfig';
 import WatchExecutionManager from "./WatchExecutionManager";
 import ExitHandler from "./ExitHandler";
-const color = require('colors');
+
+require('colors');
 
 const debug = debugModule(path.basename(__filename));
 

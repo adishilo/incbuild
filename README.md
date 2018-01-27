@@ -2,14 +2,11 @@
 ## What is *incbuild*
 *incbuild* is a utility that relates FS changes to actions that need to be taken. For instance, in a development environment, when changed files needs to be copied around to target folders or when backuping files to another folder or when you need to compile ad-hoc changed/added files.
 
-The tool works by a defined plan given in a JSON configuration file, which allows many features.
+The tool works by a defined plan required by a configuration file, which allows many features.
 
-## What's new
-### Version 0.9.5
-- Added the ability to selectively activate chosen watches.
-- Colored the activated watches in green on the console.
-- Minor (required) changes to the CLI.
-- Added *watch*.`name` property to the definition JSON file.
+## What's New
+### Version 0.9.6
+- Added CLI `-l` option to list the available watches in a configuration file. See the CLI section.
 
 Install:
 ```bash
@@ -205,8 +202,16 @@ $ incbuild -h
 
     -V, --version                            output the version number
     -f, --file <path> [[watch] [watch] ...]  Specify a watch-definitions file, and optionally select which watches to activate
+    -l, --list                               List all available watches (only with -f specified)
     -h, --help                               output usage information
 ```
+## Version log
+### Version 0.9.5
+- Added the ability to selectively activate chosen watches.
+- Colored the activated watches in green on the console.
+- Minor (required) changes to the CLI.
+- Added *watch*.`name` property to the definition JSON file.
+
 ## Running with debug messages
 *incbuild* uses the [debug npm package](https://www.npmjs.com/package/debug), so in order to see debug message, use the `DEBUG` environment variable as described in the *debug* package documentation.
 ## GitHub project
