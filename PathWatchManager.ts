@@ -8,6 +8,7 @@ import Configuration from "./Configuration/Configuration";
 import PathWatchConfig from './Configuration/PathWatchConfig';
 import WatchExecutionManager from "./WatchExecutionManager";
 import ExitHandler from "./ExitHandler";
+import WatchFileConfigManager from './Configuration/WatchFileConfigManager';
 
 require('colors');
 
@@ -20,7 +21,8 @@ export default class PathWatchManager {
 
     public constructor(private _exitHandler: ExitHandler) {}
 
-    public createPathWatchers(config: Configuration, requiredWatchNames?: Array<string>) {
+    public createPathWatchers(watchConfigManager: WatchFileConfigManager, requiredWatchNames?: Array<string>) {
+        const config = watchConfigManager.configuration;
         let baseRoot = config.baseRoot;
 
         if (!config.watches || config.watches.length === 0)
@@ -30,7 +32,7 @@ export default class PathWatchManager {
             return;
         }
 
-        const requiredWatches = this.filterWatches(config.watches, requiredWatchNames);
+        const requiredWatches = this.filterWatches(watchConfigManager, requiredWatchNames);
 
         if (requiredWatches.length === 0) {
             console.log(`None of the specified watches is defined: ${requiredWatchNames!.join(', ')} (Maybe watches are missing the 'name' property?)`)
@@ -53,14 +55,34 @@ export default class PathWatchManager {
         this.printReportLegend();
     }
 
-    private filterWatches(allWatches: Array<PathWatchConfig>, requiredWatchNames?: Array<string>): Array<PathWatchConfig> {
+    private filterWatches(watchConfigManager: WatchFileConfigManager, requiredWatchNames?: Array<string>): Array<PathWatchConfig> {
+        const allWatches = watchConfigManager.configuration.watches;
+
+        if (!allWatches || allWatches.length === 0) {
+            debug('No watches configured');
+
+            return new Array<PathWatchConfig>();
+        }
+
         if (!requiredWatchNames || requiredWatchNames.length === 0) {
             debug('No specific watches required - using all watches');
 
             return allWatches;
         }
 
-        return allWatches.filter(watch => requiredWatchNames.find(watchName => watch.name == watchName));
+        return allWatches.filter(watch => {
+            if (watchConfigManager.getWatchFolders(watch.name).length > 1) {
+                debug(`Configured watch name '${watch.name}' is used more than once - conflicting watches are ignored`);
+
+                if (requiredWatchNames.find(requiredWatchName => watch.name === requiredWatchName)) {
+                    console.log(`Watch '${watch.name}' is defined more than once - therefore is not activated`.red);
+                }
+
+                return false;
+            }
+
+            return requiredWatchNames.find(requiredWatchName => watch.name === requiredWatchName);
+        });
     }
 
     private registerAutoDirCreator(execManager: WatchExecutionManager, configWatch: PathWatchConfig) {

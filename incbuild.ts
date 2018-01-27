@@ -31,7 +31,7 @@ const executeCliCommands = (cli: any): boolean => {
             }
 
             if (watchConfig.hasDuplicateWatchNames) {
-                console.log('\nWatches are conflicting'.red);
+                console.log('\nThere are conflicting watches'.red);
             }
 
             return false;
@@ -62,7 +62,7 @@ try {
         let exitHandler = new ExitHandler();
         let watchManager = new PathWatchManager(exitHandler);
         
-        watchManager.createPathWatchers(watchConfig!.configuration, cli.args);
+        watchManager.createPathWatchers(watchConfig!, cli.args);
     } else {
         cli.help();
     }
