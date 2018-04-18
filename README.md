@@ -7,6 +7,7 @@ The tool works by a defined plan required by a configuration file, which allows 
 ## What's New
 ### Version 0.9.6 (WIP)
 - Added CLI `-l` option to list the available watches in a configuration file. See the CLI section.
+- Added CLI `-s` option to show a configuration of a given watch. See the CLI section.
 - Watches that are defined with conflicting names are ignored (proper error is given).
 
 Install:
@@ -194,7 +195,7 @@ Several properties on the configuration JSON schema use the `CommandTemplate` ty
 ## CLI
 The *incbuild* tool has a simple CLI which syntax can be viewed with the following command:
 ```bash
-$ incbuild -h
+$ incbuild.js -h
 
   Usage: incbuild [options]
 
@@ -204,6 +205,7 @@ $ incbuild -h
     -V, --version                            output the version number
     -f, --file <path> [[watch] [watch] ...]  Specify a watch-definitions file, and optionally select which watches to activate
     -l, --list                               List all available watches (only with -f specified)
+    -s, --show [watch]                       Show the configuration of a watch (only with -f specified)
     -h, --help                               output usage information
 ```
 ## Version log
