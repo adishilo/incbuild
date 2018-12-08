@@ -6,9 +6,9 @@ import CommandTemplateProcessor from "./CommandTemplateProcessor";
 import * as debugModule from 'debug';
 import Configuration from "./Configuration/Configuration";
 import PathWatchConfig from './Configuration/PathWatchConfig';
-import WatchExecutionManager from "./WatchExecutionManager";
 import ExitHandler from "./ExitHandler";
 import WatchFileConfigManager from './Configuration/WatchFileConfigManager';
+import WatchExecutionManager from './WatchExecutionManager';
 
 require('colors');
 
@@ -19,14 +19,13 @@ export default class PathWatchManager {
     private _createDirWatchers = new Array<chokidar.FSWatcher>();
     private _reportCounter = 0;
 
-    public constructor(private _exitHandler: ExitHandler) {}
+    public constructor(private _exitHandler: ExitHandler) { }
 
     public createPathWatchers(watchConfigManager: WatchFileConfigManager, requiredWatchNames?: Array<string>) {
         const config = watchConfigManager.configuration;
         let baseRoot = config.baseRoot;
 
-        if (!config.watches || config.watches.length === 0)
-        {
+        if (!config.watches || config.watches.length === 0) {
             console.log('Error: No watches defined, bailing out');
 
             return;
@@ -132,7 +131,7 @@ export default class PathWatchManager {
                 let processor = new CommandTemplateProcessor(execManager, configWatch.execAfterReady, true);
 
                 debug(`Executing 'afterReady' command for watcher ${execManager.absoluteWatchRoot}..`);
-                this.executeCommand(processor.getDigestedCommand('N/A', execManager.absoluteWatchRoot), true);
+                this.spawnCommand(processor.getDigestedCommand('N/A', execManager.absoluteWatchRoot), true);
             }
 
             console.log(`Watch '${configWatch.name}' for [${configWatch.sources.join(', ')}] on '${execManager.absoluteWatchRoot}' is ready`.green);
@@ -178,6 +177,8 @@ export default class PathWatchManager {
     private executeCommand(processToExecute: string, showStdout: boolean) {
         let childProc = proc.exec(processToExecute, (error, stdout, stderr) => {
             if (error) {
+                debug(`Process '${processToExecute}' exited with code ${(<any>error).code}, by signal ${(<any>error).signal}`);
+
                 console.log(`Error executing shell command [${processToExecute}]: ${error}`);
                 debug(`stderr: ${stderr}`);
 
@@ -192,10 +193,63 @@ export default class PathWatchManager {
                 this._reportCounter = 0; // So the next report starts at a new line
             }
 
-            this._exitHandler.unregisterProcess(childProc.pid);            
+            this._exitHandler.unregisterProcess(childProc.pid);
         });
 
         this._exitHandler.registerProcess(childProc);
+    }
+
+    private spawnCommand(processToExecute: string, showStdout: boolean) {
+        debug(`Executing command "${processToExecute}`);
+
+        const [command, ...args] = processToExecute.split(' ');
+        const childProc = proc.spawn(command, args);
+
+        if (showStdout) {
+            debug(`Attaching stdout and stderr of the command '${command}'`);
+
+            childProc.stdout.on('data', data => {
+                console.log(`stdout: ${data.toString()}`);
+            });
+
+            childProc.stderr.on('data', data => {
+                console.log(`stderr: ${data.toString()}`);
+            });
+
+            console.log(`Process: ${process.pid}, child: ${childProc.pid}`);
+        }
+
+        process.on('SIGTERM', () => {
+            console.log(`Process got SIGTERM signal`);
+        });
+
+        process.on('SIGINT', () => {
+            console.log(`Process got SIGINT signal`);
+
+            process.exit(0);
+        });
+
+        process.on('SIGKILL', () => {
+            console.log(`Process got SIGKILL signal`);
+        });
+
+        childProc.on('error', error1 => {
+            debug(`Process '${command}' failed with error: ${error1.stack}`);
+
+            console.log(`Process failed with error ${error1.message}`);
+        });
+
+        childProc.on('close', (code, signal) => {
+            console.log(`Process ${childProc.pid} closed streams with exit code ${code}, signal ${signal}`);
+        });
+
+        childProc.on('exit', (code, signal) => {
+            console.log(`Process ${childProc.pid} exited with exit code ${code}, signal ${signal}`);
+        });
+
+        childProc.on('warning', (warning: any) => {
+            console.log(`Process warning: ${JSON.stringify(warning)}`);
+        });
     }
 
     private printReportLegend() {
